@@ -1,10 +1,12 @@
-import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
-import { eq, and, like, desc } from "drizzle-orm";
 import { listings, type InsertListing, type Listing } from "@shared/schema";
 
-const sqlite = new Database("suburbshare.db");
-export const db = drizzle(sqlite);
+// Use file-based SQLite — works on Hostinger persistent storage
+const DB_PATH = process.env.DB_PATH || "pantryshare.db";
+const sqlite = new Database(DB_PATH);
+
+// Enable WAL mode for better performance
+sqlite.pragma("journal_mode = WAL");
 
 // Create tables
 sqlite.exec(`
@@ -31,38 +33,77 @@ export interface IStorage {
   deactivateListing(id: number): void;
 }
 
+function rowToListing(row: any): Listing {
+  return {
+    id: row.id,
+    type: row.type,
+    category: row.category,
+    title: row.title,
+    description: row.description,
+    suburb: row.suburb,
+    postcode: row.postcode,
+    contactName: row.contact_name,
+    contactEmail: row.contact_email,
+    swapFor: row.swap_for ?? null,
+    createdAt: row.created_at,
+    isActive: row.is_active,
+  };
+}
+
 export const storage: IStorage = {
   getListings(filters = {}) {
-    let query = db.select().from(listings).where(eq(listings.isActive, 1));
-    const results = db
-      .select()
-      .from(listings)
-      .where(eq(listings.isActive, 1))
-      .orderBy(desc(listings.createdAt))
-      .all();
+    let sql = "SELECT * FROM listings WHERE is_active = 1";
+    const params: any[] = [];
 
-    return results.filter((l) => {
-      if (filters.suburb && !l.suburb.toLowerCase().includes(filters.suburb.toLowerCase())) return false;
-      if (filters.postcode && l.postcode !== filters.postcode) return false;
-      if (filters.type && l.type !== filters.type) return false;
-      if (filters.category && l.category !== filters.category) return false;
-      return true;
-    });
+    if (filters.suburb) {
+      sql += " AND LOWER(suburb) LIKE LOWER(?)";
+      params.push(`%${filters.suburb}%`);
+    }
+    if (filters.postcode) {
+      sql += " AND postcode = ?";
+      params.push(filters.postcode);
+    }
+    if (filters.type) {
+      sql += " AND type = ?";
+      params.push(filters.type);
+    }
+    if (filters.category) {
+      sql += " AND category = ?";
+      params.push(filters.category);
+    }
+
+    sql += " ORDER BY created_at DESC";
+
+    const rows = sqlite.prepare(sql).all(...params) as any[];
+    return rows.map(rowToListing);
   },
 
   getListing(id) {
-    return db.select().from(listings).where(eq(listings.id, id)).get();
+    const row = sqlite.prepare("SELECT * FROM listings WHERE id = ? AND is_active = 1").get(id) as any;
+    return row ? rowToListing(row) : undefined;
   },
 
   createListing(data) {
-    return db
-      .insert(listings)
-      .values({ ...data, createdAt: Date.now(), isActive: 1 })
-      .returning()
-      .get();
+    const stmt = sqlite.prepare(`
+      INSERT INTO listings (type, category, title, description, suburb, postcode, contact_name, contact_email, swap_for, created_at, is_active)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+    `);
+    const result = stmt.run(
+      data.type,
+      data.category,
+      data.title,
+      data.description,
+      data.suburb,
+      data.postcode,
+      data.contactName,
+      data.contactEmail,
+      data.swapFor ?? null,
+      Date.now()
+    );
+    return this.getListing(result.lastInsertRowid as number)!;
   },
 
   deactivateListing(id) {
-    db.update(listings).set({ isActive: 0 }).where(eq(listings.id, id)).run();
+    sqlite.prepare("UPDATE listings SET is_active = 0 WHERE id = ?").run(id);
   },
 };
