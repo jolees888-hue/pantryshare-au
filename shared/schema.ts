@@ -1,27 +1,34 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const listings = sqliteTable("listings", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  type: text("type").notNull(), // "share" | "swap" | "wanted"
-  category: text("category").notNull(), // "fresh_produce" | "pantry" | "dairy" | "bakery" | "other"
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  suburb: text("suburb").notNull(),
-  postcode: text("postcode").notNull(),
-  contactName: text("contact_name").notNull(),
-  contactEmail: text("contact_email").notNull(),
-  swapFor: text("swap_for"), // only for type=swap
-  createdAt: integer("created_at").notNull(),
-  isActive: integer("is_active").notNull().default(1),
-});
+// Listing types
+export type ListingType = "share" | "swap" | "wanted";
+export type ListingCategory = "fresh_produce" | "pantry" | "dairy" | "bakery" | "other";
 
-export const insertListingSchema = createInsertSchema(listings).omit({
-  id: true,
-  createdAt: true,
-  isActive: true,
+export interface Listing {
+  id: number;
+  type: string;
+  category: string;
+  title: string;
+  description: string;
+  suburb: string;
+  postcode: string;
+  contactName: string;
+  contactEmail: string;
+  swapFor: string | null;
+  createdAt: number;
+  isActive: number;
+}
+
+export const insertListingSchema = z.object({
+  type: z.enum(["share", "swap", "wanted"]),
+  category: z.enum(["fresh_produce", "pantry", "dairy", "bakery", "other"]),
+  title: z.string().min(5).max(100),
+  description: z.string().min(10).max(600),
+  suburb: z.string().min(2),
+  postcode: z.string().regex(/^\d{4}$/),
+  contactName: z.string().min(2),
+  contactEmail: z.string().email(),
+  swapFor: z.string().optional(),
 });
 
 export type InsertListing = z.infer<typeof insertListingSchema>;
-export type Listing = typeof listings.$inferSelect;
