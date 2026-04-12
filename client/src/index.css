@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   PANTRYSARE AU — Design System
+   Tone: Calm + serious. Community resilience, not panic.
+   Palette: Deep olive/earth greens + warm off-white + amber accents
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* Surfaces — warm off-white, earthy */
+    --background: 42 18% 95%;
+    --foreground: 38 25% 12%;
+    --card: 42 20% 97%;
+    --card-foreground: 38 25% 12%;
+    --popover: 42 20% 97%;
+    --popover-foreground: 38 25% 12%;
+
+    /* Primary — deep olive green */
+    --primary: 88 35% 28%;
+    --primary-foreground: 42 20% 97%;
+
+    /* Secondary — muted sage */
+    --secondary: 88 15% 88%;
+    --secondary-foreground: 88 35% 20%;
+
+    /* Muted surfaces */
+    --muted: 42 12% 91%;
+    --muted-foreground: 38 10% 46%;
+
+    /* Accent — warm amber, for urgency cues */
+    --accent: 32 75% 48%;
+    --accent-foreground: 42 20% 97%;
+
+    /* Status */
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 42 20% 97%;
+
+    /* Borders */
+    --border: 42 12% 83%;
+    --input: 42 12% 83%;
+    --ring: 88 35% 28%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 38 18% 8%;
+    --foreground: 42 15% 88%;
+    --card: 38 15% 11%;
+    --card-foreground: 42 15% 88%;
+    --popover: 38 15% 11%;
+    --popover-foreground: 42 15% 88%;
+
+    --primary: 88 30% 48%;
+    --primary-foreground: 38 18% 8%;
+
+    --secondary: 38 10% 18%;
+    --secondary-foreground: 42 12% 75%;
+
+    --muted: 38 10% 15%;
+    --muted-foreground: 42 8% 52%;
+
+    --accent: 32 65% 52%;
+    --accent-foreground: 38 18% 8%;
+
+    --destructive: 0 55% 48%;
+    --destructive-foreground: 42 15% 88%;
+
+    --border: 38 8% 22%;
+    --input: 38 8% 22%;
+    --ring: 88 30% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'General Sans', 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 100dvh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cabinet Grotesk', 'General Sans', system-ui, sans-serif;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  p, li {
+    text-wrap: pretty;
+  }
+
+  img, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: hsl(88 35% 28% / 0.18);
+  }
+}
+
+/* ============================================================
+   CUSTOM UTILITIES
+   ============================================================ */
+
+.listing-card {
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+.listing-card:hover {
+  box-shadow: 0 4px 20px hsl(38 25% 12% / 0.10);
+  transform: translateY(-1px);
+}
+
+.badge-share {
+  background: hsl(88 35% 28% / 0.12);
+  color: hsl(88 35% 22%);
+  border: 1px solid hsl(88 35% 28% / 0.25);
+}
+.dark .badge-share {
+  background: hsl(88 30% 48% / 0.15);
+  color: hsl(88 30% 65%);
+  border-color: hsl(88 30% 48% / 0.3);
+}
+
+.badge-swap {
+  background: hsl(200 50% 38% / 0.12);
+  color: hsl(200 50% 28%);
+  border: 1px solid hsl(200 50% 38% / 0.25);
+}
+.dark .badge-swap {
+  background: hsl(200 45% 55% / 0.15);
+  color: hsl(200 45% 70%);
+  border-color: hsl(200 45% 55% / 0.3);
+}
+
+.badge-wanted {
+  background: hsl(32 75% 48% / 0.12);
+  color: hsl(32 75% 32%);
+  border: 1px solid hsl(32 75% 48% / 0.25);
+}
+.dark .badge-wanted {
+  background: hsl(32 65% 52% / 0.15);
+  color: hsl(32 65% 68%);
+  border-color: hsl(32 65% 52% / 0.3);
+}
+
+.alert-banner {
+  background: hsl(32 75% 48% / 0.10);
+  border-left: 3px solid hsl(32 75% 48%);
+  color: hsl(32 75% 25%);
+}
+.dark .alert-banner {
+  background: hsl(32 65% 52% / 0.12);
+  border-left-color: hsl(32 65% 52%);
+  color: hsl(32 65% 75%);
+}
