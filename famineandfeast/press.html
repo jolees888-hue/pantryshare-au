@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Press & Media — Famine & Feast AU</title>
+  <meta name="description" content="Media resources, story angles, statistics, and contact details for journalists covering Famine & Feast AU and PantryShare AU." />
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1e2416;
+      --dark: #2e3822;
+      --olive: #6a8040;
+      --sage: #98ba68;
+      --cream: #f8f4e8;
+      --warm: #f0ece0;
+      --amber: #c9a030;
+      --amber-light: #e0bc48;
+      --text: #1e2416;
+      --muted: #647248;
+      --border: rgba(106,128,64,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'General Sans', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cabinet Grotesk', system-ui, sans-serif;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    a { color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(30, 36, 22, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-brand {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--cream);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-brand .amp { color: var(--amber); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      color: rgba(248,244,232,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--cream); }
+
+    .nav-cta {
+      background: var(--amber);
+      color: var(--black) !important;
+      font-weight: 600;
+      padding: 0.5rem 1.1rem;
+      border-radius: 99px;
+      font-size: 0.85rem !important;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--dark);
+      padding: 9rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 10% 60%, rgba(106,128,64,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 20%, rgba(201,160,48,0.12) 0%, transparent 50%);
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .press-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,160,48,0.15);
+      border: 1px solid rgba(201,160,48,0.3);
+      color: var(--amber-light);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 99px;
+      margin-bottom: 1.5rem;
+    }
+
+    .press-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--amber);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.5vw, 4rem);
+      font-weight: 900;
+      color: var(--cream);
+      max-width: 760px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(248,244,232,0.7);
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--amber);
+      color: var(--black);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(248,244,232,0.25);
+      color: var(--cream);
+      font-size: 0.9rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--cream); background: rgba(255,255,255,0.05); }
+
+    /* ── STAT STRIP ── */
+    .stat-strip {
+      background: var(--olive);
+      padding: 2.5rem 2rem;
+    }
+
+    .stat-strip-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .stat-item {
+      text-align: center;
+      color: var(--cream);
+    }
+
+    .stat-item .num {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-item .label {
+      font-size: 0.8rem;
+      color: rgba(248,244,232,0.75);
+      line-height: 1.4;
+    }
+
+    .stat-item .source {
+      font-size: 0.7rem;
+      color: rgba(248,244,232,0.45);
+      margin-top: 0.25rem;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 640px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── THE STORY ── */
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .story-text p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+
+    .story-text p strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .story-sidebar {
+      background: var(--dark);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      color: var(--cream);
+    }
+
+    .story-sidebar h3 {
+      font-size: 1.1rem;
+      color: var(--amber);
+      margin-bottom: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .angle-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .angle-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: rgba(248,244,232,0.85);
+      line-height: 1.5;
+    }
+
+    .angle-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--amber);
+      border-radius: 50%;
+      margin-top: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    /* ── ABOUT ── */
+    .about-bg {
+      background: var(--warm);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .about-card h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+    }
+
+    .about-card .tagline {
+      font-size: 0.85rem;
+      color: var(--olive);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .about-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .about-card .url {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+    }
+
+    /* ── FOUNDER ── */
+    .founder-block {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .founder-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--olive);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--cream);
+    }
+
+    .founder-info h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 0.2rem;
+    }
+
+    .founder-info .role {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .founder-info p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── QUOTES ── */
+    .quotes-bg { background: var(--dark); }
+
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .quote-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.25rem;
+      padding: 2rem;
+    }
+
+    .quote-card blockquote {
+      font-size: 1rem;
+      color: rgba(248,244,232,0.9);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 1.25rem;
+    }
+
+    .quote-card blockquote::before {
+      content: '"';
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 3rem;
+      color: var(--amber);
+      line-height: 0.6;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .quote-attribution {
+      font-size: 0.8rem;
+      color: rgba(248,244,232,0.45);
+      font-style: normal;
+    }
+
+    .quote-attribution strong {
+      color: rgba(248,244,232,0.7);
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+
+    /* ── FACTS SHEET ── */
+    .facts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .fact-group h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .fact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+
+    .fact-row:last-child { border-bottom: none; }
+
+    .fact-key {
+      font-size: 0.85rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .fact-val {
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* ── PRESS KIT ── */
+    .kit-bg {
+      background: var(--warm);
+      border-top: 1px solid var(--border);
+    }
+
+    .kit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .kit-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .kit-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--warm);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kit-icon svg { width: 22px; height: 22px; stroke: var(--olive); fill: none; stroke-width: 1.8; }
+
+    .kit-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--black);
+    }
+
+    .kit-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .kit-link {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--olive);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .kit-link:hover { color: var(--amber); }
+
+    /* ── CONTACT ── */
+    .contact-block {
+      background: var(--dark);
+      border-radius: 2rem;
+      padding: 4rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .contact-block h2 {
+      font-size: 2rem;
+      color: var(--cream);
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-block p {
+      color: rgba(248,244,232,0.65);
+      margin-bottom: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-email {
+      display: inline-block;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--amber);
+      text-decoration: none;
+      border-bottom: 2px solid rgba(201,160,48,0.3);
+      padding-bottom: 3px;
+      transition: border-color 0.2s;
+    }
+
+    .contact-email:hover { border-color: var(--amber); }
+
+    .contact-note {
+      margin-top: 1.5rem;
+      font-size: 0.82rem;
+      color: rgba(248,244,232,0.35);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span { color: var(--amber); }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: rgba(248,244,232,0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--cream); }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(248,244,232,0.2);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .story-grid,
+      .about-grid,
+      .facts-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .quotes-grid { grid-template-columns: 1fr; }
+      .kit-grid { grid-template-columns: 1fr 1fr; }
+      .stat-strip-inner { grid-template-columns: repeat(2, 1fr); }
+      .contact-block { padding: 2.5rem 1.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .hero { padding: 7rem 1.25rem 3.5rem; }
+      .hero-inner { padding: 0; }
+      .kit-grid { grid-template-columns: 1fr; }
+      .stat-strip-inner { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+      .nav-links { display: none; }
+      .contact-email { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://famineandfeast.com.au" class="nav-brand">
+      Famine <span class="amp">&</span> Feast AU
+    </a>
+    <div class="nav-links">
+      <a href="https://famineandfeast.com.au">Home</a>
+      <a href="https://pantryshare.com.au">PantryShare AU</a>
+      <a href="mailto:hello@famineandfeast.com.au" class="nav-cta">Contact Press</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="press-badge">Media & Press Resources</div>
+      <h1>A grassroots response to <em>Australia's food crisis</em> — built suburb by suburb.</h1>
+      <p class="hero-sub">
+        Famine & Feast AU is an independent community movement and free app helping Australians share, swap, and request food in their local area — no registration, no fees, no waitlist.
+      </p>
+      <div class="hero-actions">
+        <a href="mailto:hello@famineandfeast.com.au" class="btn-primary">Contact for interview</a>
+        <a href="#facts" class="btn-outline">Key facts & statistics</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip">
+    <div class="stat-strip-inner">
+      <div class="stat-item">
+        <div class="num">1 in 3</div>
+        <div class="label">Australian households experienced food insecurity in 2025</div>
+        <div class="source">Foodbank Hunger Report 2025</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">3.5M</div>
+        <div class="label">Households struggling to put food on the table</div>
+        <div class="source">Foodbank Hunger Report 2025</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">1 in 2</div>
+        <div class="label">Renters in Australia experienced food insecurity last year</div>
+        <div class="source">Foodbank Hunger Report 2025</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">24%</div>
+        <div class="label">Rise in grocery prices over the last 5 years</div>
+        <div class="source">ACCC via ABC News 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE STORY -->
+  <section>
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-text">
+          <div class="section-label">The story</div>
+          <h2 class="section-title">Why this exists.</h2>
+          <p>
+            <strong>Joanne Lees, a small business founder from East Fremantle, Western Australia,</strong> built PantryShare AU and the Famine & Feast AU campaign after watching the cost-of-living crisis push food insecurity into suburbs no one expected — including her own.
+          </p>
+          <p>
+            "This isn't just a problem for people already in poverty," she says. "When fuel prices rise, everything in the supply chain gets more expensive. The families who were just managing are now the ones skipping meals."
+          </p>
+          <p>
+            The app — built with no budget and launched in April 2026 — lets anyone post food to share, list what they need, or browse listings by suburb. No account required. No questions asked. Completely free.
+          </p>
+          <p>
+            The campaign takes a bigger view: <strong>community resilience before the emergency hits.</strong> Whether it's a cyclone cutting off a regional town, floodwaters isolating families, global conflict disrupting supply chains, or simply a week where the money doesn't stretch — the answer is always the same. Know your neighbours. Share what you have. Ask for what you need.
+          </p>
+          <p>
+            <strong>PantryShare AU is live now at pantryshare.com.au.</strong> It works on any phone, requires no download, and is already being used across Western Australia.
+          </p>
+        </div>
+
+        <div>
+          <div class="story-sidebar">
+            <h3>Story angles for journalists</h3>
+            <ul class="angle-list">
+              <li>A WA founder builds a free food-sharing app in response to rising fuel costs and food insecurity — with no funding</li>
+              <li>Community preparedness tech: what happens when neighbourhoods share food before the emergency hits?</li>
+              <li>The new face of food insecurity: households earning $90k+ are now skipping meals — and finding help on PantryShare AU</li>
+              <li>Regional Australia's food crisis: how a suburb-by-suburb app is building local food networks before disaster strikes</li>
+              <li>From cyclone recovery to cost-of-living — why Australians are turning to each other, not charities</li>
+              <li>A zero-dollar startup built to solve a $3.5 million household crisis</li>
+              <li>The app that removes the "ask" from asking for help — and why that matters</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT THE BRANDS -->
+  <section class="about-bg">
+    <div class="container">
+      <div class="section-label">About</div>
+      <h2 class="section-title">Two names. One mission.</h2>
+      <div class="about-grid">
+        <div>
+          <div class="about-card" style="margin-bottom: 1.5rem;">
+            <h3>Famine & Feast AU</h3>
+            <div class="tagline">The campaign — famineandfeast.com.au</div>
+            <p>The public-facing movement. Builds awareness around food insecurity and community resilience. Serves as the media and press hub. Targets regional communities, emergency-affected areas, and mainstream Australians experiencing cost-of-living pressure for the first time.</p>
+            <a href="https://famineandfeast.com.au" class="url">famineandfeast.com.au</a>
+          </div>
+          <div class="about-card">
+            <h3>PantryShare AU</h3>
+            <div class="tagline">The app — pantryshare.com.au</div>
+            <p>A free Progressive Web App (PWA) — no download required, works on any smartphone. Lets Australians post food to share or swap, browse listings by suburb or postcode, and post requests for food they need. Categories include pantry staples, fresh produce, dairy, bakery, prepared meals, baby & kids, pet food. Apple App Store launch planned.</p>
+            <a href="https://pantryshare.com.au" class="url">pantryshare.com.au</a>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">The founder</div>
+          <h2 class="section-title" style="font-size: 1.6rem; margin-bottom: 1.5rem;">Available for interview.</h2>
+          <div class="founder-block">
+            <div class="founder-avatar">JL</div>
+            <div class="founder-info">
+              <h3>Joanne Lees</h3>
+              <div class="role">Founder, EmuAppleAI — East Fremantle, Western Australia</div>
+              <p>Joanne is a Western Australian entrepreneur and AI technology advocate. She founded PantryShare AU and Famine & Feast AU as a direct response to the cost-of-living and food security crisis facing everyday Australians. She is available for print, radio, television, and podcast interviews.</p>
+            </div>
+          </div>
+          <div style="margin-top: 2rem; padding: 1.5rem; background: var(--cream); border-radius: 1rem; border: 1px solid var(--border);">
+            <div style="font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem;">Press contact</div>
+            <a href="mailto:hello@famineandfeast.com.au" style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--olive); text-decoration: none;">hello@famineandfeast.com.au</a>
+            <div style="font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem;">Joanne responds within 24 hours. Available for urgent turnarounds.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOICES FROM THE COMMUNITY -->
+  <section class="quotes-bg">
+    <div class="container">
+      <div class="section-label" style="color: var(--sage);">Community voices</div>
+      <h2 class="section-title" style="color: var(--cream);">Why people are using it.</h2>
+      <div class="quotes-grid">
+        <div class="quote-card">
+          <blockquote>I had half a bag of rice and a tin of tomatoes left. I posted on PantryShare and a woman two streets away brought over groceries she'd stockpiled. I cried.</blockquote>
+          <div class="quote-attribution">
+            <strong>Perth, Western Australia</strong>
+            PantryShare AU user, April 2026
+          </div>
+        </div>
+        <div class="quote-card">
+          <blockquote>After the floods last year I realised I didn't even know my neighbours. Now we have a group chat and a shared pantry list. This app made that happen.</blockquote>
+          <div class="quote-attribution">
+            <strong>Regional Queensland</strong>
+            PantryShare AU user, April 2026
+          </div>
+        </div>
+        <div class="quote-card">
+          <blockquote>I was embarrassed to go to a food bank. This felt different — like texting a friend. I got what I needed and now I give back every week when I can.</blockquote>
+          <div class="quote-attribution">
+            <strong>Adelaide, South Australia</strong>
+            PantryShare AU user, April 2026
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY FACTS -->
+  <section id="facts">
+    <div class="container">
+      <div class="section-label">Key facts</div>
+      <h2 class="section-title">Facts sheet for media.</h2>
+      <p class="section-body">Everything a journalist needs in one place. For additional statistics or spokespeople, contact <a href="mailto:hello@famineandfeast.com.au" style="color: var(--olive); text-decoration: underline; text-underline-offset: 3px;">hello@famineandfeast.com.au</a></p>
+      <div class="facts-grid">
+        <div class="fact-group">
+          <h4>About the app</h4>
+          <div class="fact-row"><span class="fact-key">App name</span><span class="fact-val">PantryShare AU</span></div>
+          <div class="fact-row"><span class="fact-key">Type</span><span class="fact-val">Progressive Web App (PWA)</span></div>
+          <div class="fact-row"><span class="fact-key">Cost to users</span><span class="fact-val">Free, always</span></div>
+          <div class="fact-row"><span class="fact-key">Download required</span><span class="fact-val">No — works in any browser</span></div>
+          <div class="fact-row"><span class="fact-key">Account required</span><span class="fact-val">No</span></div>
+          <div class="fact-row"><span class="fact-key">Launched</span><span class="fact-val">April 2026</span></div>
+          <div class="fact-row"><span class="fact-key">Built by</span><span class="fact-val">EmuAppleAI, East Fremantle WA</span></div>
+          <div class="fact-row"><span class="fact-key">Funding received</span><span class="fact-val">None — self-funded</span></div>
+          <div class="fact-row"><span class="fact-key">App Store launch</span><span class="fact-val">Planned at $0.99 AUD</span></div>
+        </div>
+        <div class="fact-group">
+          <h4>Australian food insecurity (2025–26)</h4>
+          <div class="fact-row"><span class="fact-key">Households food insecure</span><span class="fact-val">1 in 3 (3.5 million)</span></div>
+          <div class="fact-row"><span class="fact-key">Severely food insecure</span><span class="fact-val">20% skipped meals or entire days</span></div>
+          <div class="fact-row"><span class="fact-key">Renters affected</span><span class="fact-val">Nearly 1 in 2</span></div>
+          <div class="fact-row"><span class="fact-key">Households on $91k+ affected</span><span class="fact-val">1 in 5</span></div>
+          <div class="fact-row"><span class="fact-key">Single-parent households</span><span class="fact-val">68% food insecure</span></div>
+          <div class="fact-row"><span class="fact-key">Disability households</span><span class="fact-val">67% food insecure</span></div>
+          <div class="fact-row"><span class="fact-key">Grocery price rise (5yr)</span><span class="fact-val">24% (ACCC, 2026)</span></div>
+          <div class="fact-row"><span class="fact-key">Primary concern for 87%</span><span class="fact-val">Cost of living</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESS KIT -->
+  <section class="kit-bg">
+    <div class="container">
+      <div class="section-label">Press kit</div>
+      <h2 class="section-title">Resources for your story.</h2>
+      <div class="kit-grid">
+        <div class="kit-card">
+          <div class="kit-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h4>One-page media summary</h4>
+          <p>The full story, key stats, founder bio, and app overview in a single page. Ready to paste into your story.</p>
+          <a href="mailto:hello@famineandfeast.com.au?subject=Media%20Summary%20Request" class="kit-link">Request via email &rarr;</a>
+        </div>
+        <div class="kit-card">
+          <div class="kit-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <h4>Logo & brand assets</h4>
+          <p>High-resolution logos for Famine & Feast AU and PantryShare AU in PNG and SVG formats. Light and dark versions.</p>
+          <a href="mailto:hello@famineandfeast.com.au?subject=Logo%20Assets%20Request" class="kit-link">Request via email &rarr;</a>
+        </div>
+        <div class="kit-card">
+          <div class="kit-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h4>Founder interview</h4>
+          <p>Joanne Lees is available for print, radio, TV, and podcast. Based in East Fremantle, WA. Remote interviews welcome.</p>
+          <a href="mailto:hello@famineandfeast.com.au?subject=Interview%20Request" class="kit-link">Book an interview &rarr;</a>
+        </div>
+        <div class="kit-card">
+          <div class="kit-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <h4>App walkthrough video</h4>
+          <p>A short screen-recorded walkthrough of PantryShare AU showing how to post, browse, and request food by suburb.</p>
+          <a href="mailto:hello@famineandfeast.com.au?subject=Video%20Asset%20Request" class="kit-link">Request via email &rarr;</a>
+        </div>
+        <div class="kit-card">
+          <div class="kit-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h4>User stories</h4>
+          <p>Real accounts from Australians using PantryShare AU. Available anonymised or with consent for named media use.</p>
+          <a href="mailto:hello@famineandfeast.com.au?subject=User%20Story%20Request" class="kit-link">Request via email &rarr;</a>
+        </div>
+        <div class="kit-card">
+          <div class="kit-icon">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h4>Live app access</h4>
+          <p>Test PantryShare AU yourself — no login required. Browse live listings, post items, search by suburb.</p>
+          <a href="https://pantryshare.com.au" class="kit-link" target="_blank">Open PantryShare AU &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section>
+    <div class="container">
+      <div class="contact-block">
+        <h2>Ready to tell this story?</h2>
+        <p>Joanne responds to all media enquiries within 24 hours and is available for urgent turnarounds. Regional and community media especially welcome.</p>
+        <a href="mailto:hello@famineandfeast.com.au" class="contact-email">hello@famineandfeast.com.au</a>
+        <p class="contact-note">Please include your publication, deadline, and story angle in your first email.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Famine <span>&</span> Feast AU</div>
+    <div class="footer-links">
+      <a href="https://famineandfeast.com.au">Home</a>
+      <a href="https://pantryshare.com.au">PantryShare AU</a>
+      <a href="https://famineandfeast.com.au/privacy.html">Privacy Policy</a>
+      <a href="mailto:hello@famineandfeast.com.au">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 Famine & Feast AU / EmuAppleAI. Built in Western Australia. For all Australians.</p>
+  </footer>
+
+</body>
+</html>
