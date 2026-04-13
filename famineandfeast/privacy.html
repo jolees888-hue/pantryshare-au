@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — PantryShare AU</title>
+  <meta name="description" content="Privacy Policy for PantryShare AU — the community food sharing app for Australia." />
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #252e18;
+      --dark: #3a4a28;
+      --olive: #6a8040;
+      --sage: #98ba68;
+      --cream: #f8f4e8;
+      --warm: #f0ece0;
+      --amber: #c9a030;
+      --text: #252e18;
+      --muted: #647248;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'General Sans', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cabinet Grotesk', system-ui, sans-serif;
+      line-height: 1.2;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-brand {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--cream);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-brand .dot { color: var(--amber); }
+
+    .nav-back {
+      font-size: 0.85rem;
+      color: var(--sage);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--cream); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 8rem 2rem 4rem;
+      background: var(--dark);
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--sage);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    .last-updated {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--warm);
+      padding: 0.3rem 0.8rem;
+      border-radius: 99px;
+      margin-bottom: 3rem;
+    }
+
+    .content h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 2.5rem 0 0.75rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(61,92,53,0.15);
+    }
+
+    .content h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .content p {
+      font-size: 0.975rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .content ul, .content ol {
+      margin: 0.5rem 0 1rem 1.5rem;
+    }
+
+    .content li {
+      font-size: 0.975rem;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .content a {
+      color: var(--olive);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .content a:hover { color: var(--amber); }
+
+    .highlight-box {
+      background: var(--warm);
+      border-left: 3px solid var(--olive);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.5rem 0;
+    }
+
+    .highlight-box p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      text-align: center;
+      padding: 2.5rem 2rem;
+    }
+
+    .footer-logo {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span { color: var(--amber); }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--sage);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--cream); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: #4a5e44;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .content { padding: 3rem 1.25rem 5rem; }
+      .hero { padding: 7rem 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://famineandfeast.com.au" class="nav-brand">
+      Famine <span class="dot">&</span> Feast AU
+    </a>
+    <a href="https://pantryshare.com.au" class="nav-back">
+      ← Back to PantryShare AU
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="hero-label">PantryShare AU</span>
+    <h1>Privacy Policy</h1>
+    <p class="hero-sub">How we handle your information — plainly and honestly.</p>
+  </div>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <span class="last-updated">Last updated: April 2026</span>
+
+    <div class="highlight-box">
+      <p><strong>The short version:</strong> PantryShare AU collects only what's necessary to run the app. We don't sell your data. We don't share it with advertisers. This is a community tool, not a commercial product.</p>
+    </div>
+
+    <h2>1. Who We Are</h2>
+    <p>PantryShare AU is operated by EmuAppleAI, based in East Fremantle, Western Australia. The app is part of the Famine & Feast AU community movement.</p>
+    <p>If you have any questions about this policy, contact us at <a href="mailto:hello@famineandfeast.com.au">hello@famineandfeast.com.au</a>.</p>
+
+    <h2>2. Information We Collect</h2>
+    <p>We collect only what you provide when using the app:</p>
+    <ul>
+      <li><strong>Listing information</strong> — the food items you post to share, swap, or request, including title, description, category, suburb or postcode, and a contact email address.</li>
+      <li><strong>Contact email address</strong> — used only so other community members can reach you about your listing. It is displayed on your public listing.</li>
+      <li><strong>Suburb or postcode</strong> — used to show your listing to people nearby. We do not collect your precise GPS location.</li>
+    </ul>
+    <p>We do <strong>not</strong> collect your name, phone number, address, payment information, or any account credentials — there is no account login required to use PantryShare AU.</p>
+
+    <h2>3. How We Use Your Information</h2>
+    <p>The information you submit is used solely to:</p>
+    <ul>
+      <li>Display your listing to other community members browsing by suburb or postcode</li>
+      <li>Allow other users to contact you about your listing via email</li>
+      <li>Improve the app's functionality and fix bugs</li>
+    </ul>
+    <p>We do not use your information for marketing, profiling, or advertising purposes.</p>
+
+    <h2>4. Who Can See Your Information</h2>
+    <p>Listings you post are <strong>publicly visible</strong> to anyone who visits pantryshare.com.au. This includes your contact email, suburb, and the details of what you are sharing or requesting.</p>
+    <p>Please do not include sensitive personal information in listing descriptions. Only share what you are comfortable with the general public seeing.</p>
+
+    <h2>5. Data Storage</h2>
+    <p>Your listing data is stored securely on servers managed by Hostinger, located in the European Union. Hostinger's infrastructure complies with relevant data protection laws.</p>
+    <p>Listings remain live until you choose to remove them using the "Remove Listing" option within the app. Removed listings are permanently deleted from our database.</p>
+
+    <h2>6. Waitlist Signups</h2>
+    <p>If you sign up to the Famine & Feast AU waitlist at famineandfeast.com.au, we collect only your email address. This is used to notify you when new features or the Apple App Store version launches. You can unsubscribe at any time by emailing <a href="mailto:hello@famineandfeast.com.au">hello@famineandfeast.com.au</a>.</p>
+
+    <h2>7. Cookies & Tracking</h2>
+    <p>PantryShare AU does not use tracking cookies, advertising pixels, or analytics services that identify individual users. We may collect anonymous, aggregated usage data (such as page view counts) to understand how the app is being used — this data cannot be used to identify you personally.</p>
+
+    <h2>8. Third-Party Services</h2>
+    <p>The app is hosted on <a href="https://hostinger.com.au" target="_blank" rel="noopener">Hostinger</a>. Fonts are loaded from <a href="https://fontshare.com" target="_blank" rel="noopener">Fontshare</a>. These services may log your IP address as part of normal server operations. We do not share your personal information with any third party for commercial purposes.</p>
+
+    <h2>9. Children's Privacy</h2>
+    <p>PantryShare AU is not directed at children under the age of 13. We do not knowingly collect information from children. If you believe a child has submitted information through the app, please contact us and we will remove it promptly.</p>
+
+    <h2>10. Your Rights (Australian Privacy Act 1988)</h2>
+    <p>Under the Australian Privacy Act 1988, you have the right to:</p>
+    <ul>
+      <li>Request access to the personal information we hold about you</li>
+      <li>Request correction of inaccurate information</li>
+      <li>Request deletion of your information</li>
+      <li>Lodge a complaint with the <a href="https://www.oaic.gov.au/" target="_blank" rel="noopener">Office of the Australian Information Commissioner (OAIC)</a></li>
+    </ul>
+    <p>To exercise any of these rights, contact us at <a href="mailto:hello@famineandfeast.com.au">hello@famineandfeast.com.au</a>. We will respond within 30 days.</p>
+
+    <h2>11. Food Safety Disclaimer</h2>
+
+    <div class="highlight-box">
+      <p><strong>Important:</strong> PantryShare AU is a community noticeboard only. We do not handle, inspect, store, or distribute any food.</p>
+    </div>
+
+    <p>All food shared or swapped through PantryShare AU is exchanged directly between community members. The person offering food is solely responsible for ensuring it is safe, accurately described, and fit for consumption.</p>
+
+    <p>By using PantryShare AU, you agree that:</p>
+    <ul>
+      <li>EmuAppleAI is not a food business and is not responsible for the safety or quality of any food listed on the platform</li>
+      <li>We do not verify, inspect, or endorse any listing or the food described within it</li>
+      <li>We are not liable for any illness, injury, or loss arising from food exchanged through the platform</li>
+      <li>Always check use-by dates, allergens, and food condition before accepting any item</li>
+      <li>If in doubt, do not consume the food</li>
+    </ul>
+
+    <p>This disclaimer is made in accordance with the <em>Australia New Zealand Food Standards Code</em> (administered by <a href="https://www.foodstandards.gov.au/" target="_blank" rel="noopener">FSANZ</a>) and the <em>Australian Consumer Law</em>. Nothing here removes any rights you have under Australian law that cannot be excluded.</p>
+
+    <h2>12. Changes to This Policy</h2>
+    <p>We may update this privacy policy from time to time. When we do, we will update the "Last updated" date at the top of this page. Continued use of PantryShare AU after changes constitutes acceptance of the updated policy.</p>
+
+    <h2>13. Contact</h2>
+    <p>EmuAppleAI — Famine &amp; Feast AU / PantryShare AU<br>
+    East Fremantle, Western Australia<br>
+    <a href="mailto:hello@famineandfeast.com.au">hello@famineandfeast.com.au</a></p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Famine <span>&</span> Feast AU</div>
+    <div class="footer-links">
+      <a href="https://famineandfeast.com.au">Home</a>
+      <a href="https://pantryshare.com.au">PantryShare AU</a>
+      <a href="mailto:hello@famineandfeast.com.au">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 Famine & Feast AU. Built in Western Australia. For all Australians.</p>
+  </footer>
+
+</body>
+</html>

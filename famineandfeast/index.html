@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famine & Feast AU — Community Food Resilience for Australia</title>
+  <meta name="description" content="Rising fuel costs are straining Australia's food supply chains. Famine & Feast AU is a community movement connecting households to share, swap and support each other — suburb by suburb." />
+  <meta property="og:title" content="Famine & Feast AU" />
+  <meta property="og:description" content="A community movement for Australian food resilience. Share what you have. Ask for what you need." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://famineandfeast.com.au" />
+  <meta name="theme-color" content="#1a2e1a" />
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #252e18;
+      --dark: #3a4a28;
+      --olive: #6a8040;
+      --sage: #98ba68;
+      --cream: #f8f4e8;
+      --warm: #f0ece0;
+      --amber: #c9a030;
+      --amber-light: #e0bc48;
+      --text: #252e18;
+      --muted: #647248;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'General Sans', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cabinet Grotesk', system-ui, sans-serif;
+      line-height: 1.1;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(37, 46, 24, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--cream);
+    }
+
+    .nav-wordmark {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-wordmark span { color: var(--amber-light); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--amber);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 100px;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--amber-light); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(106,128,64,0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(201,160,48,0.18) 0%, transparent 50%);
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,124,42,0.15);
+      border: 1px solid rgba(201,124,42,0.3);
+      color: var(--amber-light);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber-light);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900;
+      color: var(--cream);
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 .amp {
+      color: var(--amber-light);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: rgba(245,240,232,0.7);
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--amber);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: var(--amber-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--cream);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      border: 1px solid rgba(245,240,232,0.25);
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(245,240,232,0.6);
+      background: rgba(245,240,232,0.05);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(245,240,232,0.4);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(245,240,232,0.4), transparent);
+      animation: scrollDown 2s infinite;
+    }
+
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      50.01% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── ALERT BAND ── */
+    .alert-band {
+      background: var(--amber);
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    .alert-band p {
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 2rem; }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      color: var(--black);
+    }
+
+    .section-body {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ── REALITY SECTION ── */
+    .reality { background: var(--dark); }
+
+    .reality .section-label { color: var(--amber-light); }
+    .reality .section-title { color: var(--cream); }
+    .reality .section-body { color: rgba(245,240,232,0.65); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+    }
+
+    .stat-number {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--amber-light);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: rgba(245,240,232,0.6);
+      line-height: 1.4;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--warm); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .step-card {
+      background: #fff;
+      border-radius: 1.25rem;
+      padding: 2rem;
+      border: 1px solid rgba(61,92,53,0.1);
+    }
+
+    .step-number {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--olive);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .step-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--black);
+    }
+
+    .step-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── APP CTA ── */
+    .app-cta {
+      background: var(--olive);
+      text-align: center;
+    }
+
+    .app-cta .section-title { color: var(--cream); }
+    .app-cta .section-body { color: rgba(245,240,232,0.75); margin: 0 auto 2.5rem; }
+    .app-cta .section-label { color: var(--amber-light); }
+
+    .app-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .badge-coming {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(245,240,232,0.7);
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* ── WAITLIST ── */
+    .waitlist { background: var(--cream); }
+
+    .waitlist-box {
+      background: var(--black);
+      border-radius: 2rem;
+      padding: 4rem 3rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .waitlist-box .section-label { color: var(--amber-light); }
+    .waitlist-box h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: var(--cream);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .waitlist-box p {
+      color: rgba(245,240,232,0.6);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .waitlist-form {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .waitlist-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 0.85rem 1.25rem;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08);
+      color: var(--cream);
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .waitlist-input::placeholder { color: rgba(245,240,232,0.35); }
+    .waitlist-input:focus { border-color: var(--amber); }
+
+    .waitlist-btn {
+      padding: 0.85rem 1.75rem;
+      border-radius: 100px;
+      background: var(--amber);
+      color: #fff;
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .waitlist-btn:hover { background: var(--amber-light); }
+
+    .waitlist-success {
+      display: none;
+      color: var(--amber-light);
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 1rem;
+    }
+
+    /* ── PRESS ── */
+    .press { background: var(--warm); }
+
+    .press-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .press-card {
+      background: #fff;
+      border-radius: 1.25rem;
+      padding: 2rem;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .press-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--black);
+    }
+
+    .press-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .press-link {
+      color: var(--olive);
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .press-link:hover { color: var(--amber); }
+
+    /* ── PREPAREDNESS ── */
+    .preparedness {
+      background: var(--cream);
+      border-top: 1px solid rgba(61,92,53,0.12);
+    }
+
+    .prep-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      .prep-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .prep-block {
+      background: var(--warm);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      border: 1px solid rgba(61,92,53,0.1);
+    }
+
+    .prep-icon {
+      font-size: 2.25rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .prep-block h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .prep-block p {
+      font-size: 0.975rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .prep-block.no-shame {
+      background: var(--dark);
+      border-color: transparent;
+    }
+
+    .prep-block.no-shame h3 { color: var(--cream); }
+    .prep-block.no-shame p { color: rgba(245,240,232,0.7); }
+
+    .prep-block.no-shame .prep-quote {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--amber-light);
+      line-height: 1.4;
+      margin-bottom: 1.25rem;
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--cream);
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span { color: var(--amber-light); font-style: italic; }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: rgba(245,240,232,0.5);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--cream); }
+
+    .footer-copy {
+      color: rgba(245,240,232,0.3);
+      font-size: 0.8rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0.875rem 1.25rem; }
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 7rem 1.25rem 4rem; }
+      .waitlist-box { padding: 2.5rem 1.5rem; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ── SUBTLE ANIMATIONS ── */
+
+    /* Floating particles in hero */
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 245, 250, 0.18);
+      animation: floatUp linear infinite;
+    }
+
+    .particle:nth-child(1)  { width: 6px;  height: 6px;  left: 8%;   animation-duration: 18s; animation-delay: 0s;   }
+    .particle:nth-child(2)  { width: 4px;  height: 4px;  left: 18%;  animation-duration: 22s; animation-delay: -4s;  }
+    .particle:nth-child(3)  { width: 8px;  height: 8px;  left: 30%;  animation-duration: 16s; animation-delay: -8s;  }
+    .particle:nth-child(4)  { width: 3px;  height: 3px;  left: 45%;  animation-duration: 24s; animation-delay: -2s;  }
+    .particle:nth-child(5)  { width: 5px;  height: 5px;  left: 60%;  animation-duration: 20s; animation-delay: -6s;  }
+    .particle:nth-child(6)  { width: 7px;  height: 7px;  left: 72%;  animation-duration: 15s; animation-delay: -10s; }
+    .particle:nth-child(7)  { width: 4px;  height: 4px;  left: 85%;  animation-duration: 26s; animation-delay: -3s;  }
+    .particle:nth-child(8)  { width: 5px;  height: 5px;  left: 92%;  animation-duration: 19s; animation-delay: -7s;  }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0.8); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+    }
+
+    /* Soft glowing orb that drifts slowly */
+    .hero-orb {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,248,252,0.06) 0%, transparent 70%);
+      top: 50%;
+      right: -100px;
+      transform: translateY(-50%);
+      animation: orbDrift 12s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes orbDrift {
+      0%, 100% { transform: translateY(-50%) translateX(0) scale(1); }
+      50%       { transform: translateY(-52%) translateX(-30px) scale(1.05); }
+    }
+
+    /* Thin horizontal scan line across hero */
+    .hero-scanline {
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,248,252,0.12), transparent);
+      animation: scanline 10s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scanline {
+      0%   { top: 15%; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.4; }
+      100% { top: 85%; opacity: 0; }
+    }
+
+    /* Fade-in on scroll for sections */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stat cards shimmer */
+    .stat-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(105deg, transparent, rgba(255,248,252,0.04), transparent);
+      animation: shimmer 6s ease-in-out infinite;
+    }
+    .stat-card:nth-child(2)::after { animation-delay: -2s; }
+    .stat-card:nth-child(3)::after { animation-delay: -4s; }
+
+    @keyframes shimmer {
+      0%   { left: -60%; }
+      100% { left: 120%; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">
+      <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Famine & Feast AU">
+        <rect width="32" height="32" rx="7" fill="#6a8040"/>
+        <path d="M8 22h16M10 22V16a2 2 0 012-2h8a2 2 0 012 2v6" stroke="#f5f0e8" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M13 14v-2a3 3 0 016 0v2" stroke="#c8ddb8" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="16" cy="18" r="1.5" fill="#e8a84a"/>
+      </svg>
+      <span class="nav-wordmark">Famine <span>&</span> Feast AU</span>
+    </a>
+    <a href="https://pantryshare.com.au" class="nav-cta" target="_blank">Open PantryShare AU →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Australian Community Initiative</div>
+      <h1>Famine <span class="amp">&</span><br>Feast AU</h1>
+      <p class="hero-sub">
+        Rising fuel costs are straining Australia's food supply chains. 
+        This is a community movement to make sure no Australian goes without — 
+        suburb by suburb, neighbour by neighbour.
+      </p>
+      <div class="hero-actions">
+        <a href="https://pantryshare.com.au" class="btn-primary" target="_blank">
+          Open PantryShare AU →
+        </a>
+        <a href="#how-it-works" class="btn-secondary">How it works</a>
+      </div>
+    </div>
+    <div class="hero-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div class="hero-orb"></div>
+    <div class="hero-scanline"></div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ALERT BAND -->
+  <div class="alert-band">
+    <p>️ Fuel prices are rising. Supply chains are under pressure. Your community needs you now — not later.</p>
+  </div>
+
+  <!-- REALITY -->
+  <section class="reality">
+    <div class="container">
+      <div class="section-label fade-in">The situation</div>
+      <h2 class="section-title fade-in">This is not a drill.</h2>
+      <p class="section-body">
+        Global fuel prices are driving up the cost of transporting food across Australia. 
+        Regional communities are already feeling it. Families are making hard choices. 
+        The supermarket shelves that Australians take for granted are under real pressure.
+        <br><br>
+        Governments move slowly. Communities can move fast.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">37%</div>
+          <div class="stat-label">of Australians report struggling with food costs in 2025–26</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">$0</div>
+          <div class="stat-label">cost to share food with a neighbour. No app fees, no commissions.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">1 in 5</div>
+          <div class="stat-label">Australian households experience food insecurity each year</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how-it-works">
+    <div class="container">
+      <div class="section-label fade-in">The solution</div>
+      <h2 class="section-title fade-in">Neighbours feeding neighbours.</h2>
+      <p class="section-body">
+        PantryShare AU is our free community food sharing app — built for Australian suburbs. 
+        No sign-up required. No money changes hands. Just real people helping each other.
+      </p>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">Step 01</div>
+          <div class="step-icon"></div>
+          <div class="step-title">Post what you have</div>
+          <p class="step-desc">List food you can share or swap — fresh produce, rice, pasta, tins, dairy, bread. Anything helps someone.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">Step 02</div>
+          <div class="step-icon"></div>
+          <div class="step-title">Search your suburb</div>
+          <p class="step-desc">Browse listings by suburb or postcode. See what your neighbours have available right now.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">Step 03</div>
+          <div class="step-icon"></div>
+          <div class="step-title">Connect directly</div>
+          <p class="step-desc">Contact each other by email. Arrange collection at your doorstep. No middleman, no fees, no fuss.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREPAREDNESS + NO SHAME -->
+  <section class="preparedness">
+    <div class="container">
+      <div class="section-label fade-in">Why it matters</div>
+      <h2 class="section-title fade-in">Built for the times we're in.</h2>
+      <p class="section-body" style="margin-bottom: 0;">
+        Floods. Cyclones. Rising costs. Conflict. Supply disruptions. Australia has always faced tough moments —
+        and every time, it's been communities, not governments, that hold people together first.
+        PantryShare AU exists to make that community network stronger, suburb by suburb, before any crisis hits.
+      </p>
+      <div class="prep-grid">
+
+        <div class="prep-block">
+          <span class="prep-icon">️</span>
+          <h3>Any emergency. Any suburb.</h3>
+          <p>
+            Whether it's fuel prices strangling supply chains, a cyclone cutting off a regional town, 
+            floodwaters isolating families, or global events disrupting what arrives on the shelf —
+            the answer is the same: know your neighbours, share what you have, ask for what you need.
+            PantryShare AU is your local food network, ready <em>before</em> the emergency arrives.
+          </p>
+        </div>
+
+        <div class="prep-block">
+          <span class="prep-icon">️</span>
+          <h3>Community is the infrastructure.</h3>
+          <p>
+            Emergency services respond. Governments fund recovery. But in the hours, days and weeks 
+            in between — it's the people next door who show up with a bag of groceries.
+            This app is about rebuilding that instinct. Knowing your street. Trusting your suburb.
+            That connection is worth more than any stockpile.
+          </p>
+        </div>
+
+        <div class="prep-block no-shame" style="grid-column: 1 / -1;">
+          <span class="prep-icon"></span>
+          <div class="prep-quote">"This is just neighbours looking out for each other."</div>
+          <h3>Asking is part of how it works.</h3>
+          <p>
+            Life gets complicated for everyone — a rough week, a tight month, a disaster that changes things overnight.
+            Posting a request on PantryShare AU is the same as texting a mate to ask if they have any extra pasta.
+            Completely normal. Completely human. No forms, no eligibility, no explanations needed.
+            Just people helping people — the way Australians always have.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- APP CTA -->
+  <section class="app-cta">
+    <div class="container">
+      <div class="section-label">Available now</div>
+      <h2 class="section-title">PantryShare AU</h2>
+      <p class="section-body">
+        Our free community food sharing app is live right now at pantryshare.com.au. 
+        Open it on your phone, add it to your home screen, and start sharing today.
+        The Apple App Store version is coming soon at $0.99 AUD.
+      </p>
+      <a href="https://pantryshare.com.au" class="btn-primary" style="margin: 0 auto; display:inline-flex;">
+        Open PantryShare AU →
+      </a>
+      <div class="app-badges">
+        <div class="badge-coming">
+           Apple App Store — Coming Soon
+        </div>
+        <div class="badge-coming">
+           Google Play — Coming Soon
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section class="waitlist" id="waitlist">
+    <div class="container">
+      <div class="waitlist-box">
+        <div class="section-label">Get notified</div>
+        <h2>Be first when the app drops</h2>
+        <p>Join the waitlist and we'll notify you the moment PantryShare AU hits the Apple App Store.</p>
+        <div class="waitlist-form">
+          <input
+            type="email"
+            class="waitlist-input"
+            placeholder="your@email.com"
+            id="waitlist-email"
+          />
+          <button class="waitlist-btn" onclick="handleWaitlist()">Notify me</button>
+        </div>
+        <div class="waitlist-success" id="waitlist-success">
+           You're on the list — we'll be in touch!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESS -->
+  <section class="press" id="press">
+    <div class="container">
+      <div class="section-label">Media & Press</div>
+      <h2 class="section-title">Tell the story.</h2>
+      <p class="section-body">
+        Famine & Feast AU is a community story worth telling. 
+        If you're a journalist, podcaster, or community organisation who wants to cover this, we'd love to hear from you.
+      </p>
+      <div class="press-grid">
+        <div class="press-card">
+          <h3>Media enquiries</h3>
+          <p>For interviews, commentary on food security, or coverage of the PantryShare AU app and the Famine & Feast AU initiative.</p>
+          <a href="mailto:hello@famineandfeast.com.au" class="press-link">hello@famineandfeast.com.au →</a>
+        </div>
+        <div class="press-card">
+          <h3>Community partnerships</h3>
+          <p>Community groups, councils, food banks and neighbourhood organisations — let's work together to get PantryShare AU into every Australian suburb.</p>
+          <a href="mailto:hello@famineandfeast.com.au" class="press-link">Get in touch →</a>
+        </div>
+        <div class="press-card">
+          <h3>Download the app</h3>
+          <p>PantryShare AU is live now as a web app. Open it on any device, add it to your phone home screen — no download required.</p>
+          <a href="https://pantryshare.com.au" class="press-link" target="_blank">pantryshare.com.au →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Famine <span>&</span> Feast AU</div>
+    <div class="footer-links">
+      <a href="https://pantryshare.com.au" target="_blank">PantryShare AU</a>
+      <a href="https://pantryshare.com.au/privacy" target="_blank">Privacy Policy</a>
+      <a href="#press">Press</a>
+      <a href="mailto:hello@famineandfeast.com.au">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 Famine & Feast AU. Built in Western Australia. For all Australians.</p>
+  </footer>
+
+  <script>
+    function handleWaitlist() {
+      const email = document.getElementById('waitlist-email').value.trim();
+      if (!email || !email.includes('@')) {
+        document.getElementById('waitlist-email').style.borderColor = '#c97c2a';
+        return;
+      }
+      // Store email locally and show success
+      document.querySelector('.waitlist-form').style.display = 'none';
+      document.getElementById('waitlist-success').style.display = 'block';
+      // Log it (in production connect to a real service like Mailchimp)
+      console.log('Waitlist signup:', email);
+    }
+
+    // Allow Enter key on email input
+    document.getElementById('waitlist-email').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleWaitlist();
+    });
+
+    // Fade-in on scroll
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.15 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
