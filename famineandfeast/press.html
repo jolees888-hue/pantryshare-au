@@ -628,6 +628,119 @@
       color: rgba(248,244,232,0.35);
     }
 
+    /* ── MEDIA CONTACTS ── */
+    .contacts-bg {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+    }
+
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .contact-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 2rem;
+    }
+
+    .contact-card .outlet-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-card h4 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-card .reach {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .contact-card .contact-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .contact-card .contact-item {
+      font-size: 0.82rem;
+    }
+
+    .contact-card .contact-item span {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .contact-card .contact-item a {
+      color: var(--olive);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-card .contact-item a:hover { color: var(--amber); }
+
+    .pitch-tip {
+      margin-top: 2.5rem;
+      background: var(--dark);
+      border-radius: 1.25rem;
+      padding: 2rem 2.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .pitch-tip-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(201,160,48,0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pitch-tip-icon svg { width: 22px; height: 22px; stroke: var(--amber); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .pitch-tip h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+
+    .pitch-tip p {
+      font-size: 0.85rem;
+      color: rgba(248,244,232,0.65);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 900px) {
+      .contacts-grid { grid-template-columns: 1fr; }
+      .pitch-tip { grid-template-columns: 1fr; }
+    }
+
     /* ── FOOTER ── */
     footer {
       background: var(--black);
@@ -947,6 +1060,94 @@
           <a href="https://pantryshare.com.au" class="kit-link" target="_blank">Open PantryShare AU &rarr;</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- MEDIA CONTACTS -->
+  <section class="contacts-bg">
+    <div class="container">
+      <div class="section-label">Media contacts</div>
+      <h2 class="section-title">Who to pitch to.</h2>
+      <p class="section-body">Direct contacts for journalists covering Western Australia and community stories. Famine & Feast AU is a strong local-angle story — lead with the East Fremantle founder and the WA connection.</p>
+
+      <div class="contacts-grid">
+
+        <div class="contact-card">
+          <div class="outlet-label">Online &amp; Print — WA</div>
+          <h4>PerthNow</h4>
+          <p class="reach">WA's largest digital news platform. Covers community, cost-of-living, and local innovation stories. Strong suburban audience.</p>
+          <div class="contact-row">
+            <div class="contact-item">
+              <span>News desk</span>
+              <a href="mailto:news@perthnow.com.au">news@perthnow.com.au</a>
+            </div>
+            <div class="contact-item">
+              <span>Editor</span>
+              <a href="mailto:taylor.renouf@wanews.com.au">Taylor Renouf — taylor.renouf@wanews.com.au</a>
+            </div>
+            <div class="contact-item">
+              <span>Local news</span>
+              <a href="mailto:arylene.westlake-jennings@wanews.com.au">Arylene Westlake-Jennings</a>
+            </div>
+            <div class="contact-item">
+              <span>Phone</span>
+              <a href="tel:0894823380">(08) 9482 3380</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="outlet-label">Community Print — Fremantle</div>
+          <h4>The Herald</h4>
+          <p class="reach">The Fremantle Herald — independent local newspaper covering Fremantle, East Fremantle, and surrounds. Highly trusted by the local community.</p>
+          <div class="contact-row">
+            <div class="contact-item">
+              <span>Editor / Chief of Staff</span>
+              <a href="mailto:steve.grant@fremantleherald.com">Steve Grant — steve.grant@fremantleherald.com</a>
+            </div>
+            <div class="contact-item">
+              <span>Perth Voice reporter</span>
+              <a href="mailto:david.bell@perthvoice.com">David Bell — david.bell@perthvoice.com</a>
+            </div>
+            <div class="contact-item">
+              <span>Website</span>
+              <a href="https://www.fremantleherald.com" target="_blank" rel="noopener">fremantleherald.com</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="outlet-label">National Broadcaster — WA</div>
+          <h4>ABC Perth</h4>
+          <p class="reach">National broadcaster with strong regional reach. ABC Perth covers community resilience, food security, and cost-of-living stories with depth.</p>
+          <div class="contact-row">
+            <div class="contact-item">
+              <span>News tip / General</span>
+              <a href="https://www.abc.net.au/perth/contact/" target="_blank" rel="noopener">abc.net.au/perth/contact</a>
+            </div>
+            <div class="contact-item">
+              <span>Phone</span>
+              <a href="tel:0892202700">(08) 9220 2700</a>
+            </div>
+            <div class="contact-item">
+              <span>Address</span>
+              <span style="text-transform: none; font-size: 0.82rem; color: var(--text); font-weight: 400;">30 Fielder Street, East Perth WA 6004</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pitch-tip">
+        <div class="pitch-tip-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <h4>Pitching tip — lead with the local angle</h4>
+          <p>For The Herald and ABC Perth, open with: <em>"East Fremantle founder builds free food-sharing app for WA as fuel costs hit families."</em> For PerthNow, the cost-of-living and tech angles are strong — <em>"1 in 3 WA households food insecure: this app is the neighbour-to-neighbour answer."</em> Always include the live link to pantryshare.com.au so journalists can test it immediately.</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
