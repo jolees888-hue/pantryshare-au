@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famine &amp; Feast AU — Data Dashboard</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #252e18;
+      --dark:    #2e3822;
+      --dark2:   #37452a;
+      --olive:   #6a8040;
+      --sage:    #98ba68;
+      --cream:   #f8f4e8;
+      --warm:    #f0ece0;
+      --amber:   #c9a030;
+      --amber-l: #e0bc48;
+      --red:     #c94030;
+      --text:    #252e18;
+      --muted:   #647248;
+      --border:  rgba(255,255,255,0.07);
+      --card-bg: #333f25;
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'General Sans', system-ui, sans-serif;
+      background: var(--dark);
+      color: var(--cream);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 { font-family: 'Cabinet Grotesk', sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(37,46,24,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 58px;
+      gap: 1rem;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 1rem; }
+    .topbar-brand {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800; font-size: 1rem; color: var(--cream);
+      letter-spacing: -0.02em; text-decoration: none;
+    }
+    .topbar-brand em { color: var(--amber-l); font-style: normal; }
+    .topbar-pill {
+      background: rgba(152,186,104,0.12);
+      border: 1px solid rgba(152,186,104,0.25);
+      color: var(--sage); font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; padding: 0.22rem 0.65rem; border-radius: 4px;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 1rem; }
+    .last-updated {
+      font-size: 0.75rem; color: rgba(248,244,232,0.35);
+    }
+    .refresh-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--border);
+      color: var(--cream); font-size: 0.8rem; font-weight: 600;
+      padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'General Sans', sans-serif;
+    }
+    .refresh-btn:hover { background: rgba(255,255,255,0.12); }
+    .export-btn {
+      background: var(--olive);
+      border: none; color: #fff; font-size: 0.8rem; font-weight: 600;
+      padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'General Sans', sans-serif;
+    }
+    .export-btn:hover { background: var(--sage); color: var(--black); }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 2rem;
+      background: rgba(201,160,48,0.08);
+      border-bottom: 1px solid rgba(201,160,48,0.15);
+      font-size: 0.78rem; color: rgba(248,244,232,0.6);
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--sage);
+      animation: blink 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .status-dot.error { background: var(--red); animation: none; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+    .status-crisis {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 0.4rem;
+      color: var(--amber-l); font-weight: 600;
+    }
+    .crisis-dot-sm {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--amber-l);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+
+    /* ── LAYOUT ── */
+    .main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+
+    /* ── KPI ROW ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .kpi {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.25rem;
+      position: relative; overflow: hidden;
+    }
+    .kpi::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--kpi-color, var(--olive));
+    }
+    .kpi-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      color: rgba(248,244,232,0.4); text-transform: uppercase; margin-bottom: 0.6rem;
+    }
+    .kpi-value {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 2.2rem; font-weight: 900; color: var(--cream);
+      letter-spacing: -0.04em; line-height: 1;
+    }
+    .kpi-value .unit { font-size: 1.1rem; color: var(--kpi-color, var(--olive)); }
+    .kpi-sub {
+      font-size: 0.75rem; color: rgba(248,244,232,0.35);
+      margin-top: 0.35rem; line-height: 1.35;
+    }
+    .kpi-change {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      font-size: 0.72rem; font-weight: 600;
+      margin-top: 0.4rem; padding: 0.15rem 0.45rem; border-radius: 4px;
+    }
+    .kpi-change.up   { background: rgba(152,186,104,0.15); color: var(--sage); }
+    .kpi-change.warn { background: rgba(201,160,48,0.15);  color: var(--amber-l); }
+    .kpi-change.crisis { background: rgba(201,64,48,0.15); color: #e87060; }
+
+    /* ── CHARTS ROW ── */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .chart-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .chart-title {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+      color: rgba(248,244,232,0.5); text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .chart-canvas-wrap { position: relative; }
+
+    /* ── BOTTOM ROW ── */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1rem;
+    }
+
+    /* ── POSTCODES TABLE ── */
+    .table-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .table-card table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .table-card th {
+      text-align: left; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(248,244,232,0.35);
+      padding: 0 0.75rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-card td {
+      padding: 0.7rem 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: rgba(248,244,232,0.8);
+      vertical-align: middle;
+    }
+    .table-card tr:last-child td { border-bottom: none; }
+    .postcode-rank { color: rgba(248,244,232,0.25); font-size: 0.75rem; font-weight: 600; }
+    .postcode-badge {
+      display: inline-block;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em;
+      padding: 0.15rem 0.45rem; border-radius: 3px;
+      background: rgba(201,160,48,0.18); color: var(--amber-l);
+    }
+    .bar-cell { display: flex; align-items: center; gap: 0.6rem; }
+    .mini-bar-bg {
+      flex: 1; height: 5px; background: rgba(255,255,255,0.07);
+      border-radius: 3px; overflow: hidden;
+    }
+    .mini-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: var(--sage);
+      transition: width 0.8s ease;
+    }
+    .mini-bar-fill.crisis { background: var(--amber); }
+    .mini-bar-val { font-size: 0.78rem; color: rgba(248,244,232,0.5); min-width: 20px; text-align: right; }
+
+    /* ── CRISIS ZONE PANEL ── */
+    .crisis-panel {
+      background: var(--card-bg);
+      border: 1px solid rgba(201,160,48,0.2);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .crisis-panel-header {
+      display: flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .crisis-panel-title {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+      color: rgba(248,244,232,0.5); text-transform: uppercase;
+    }
+    .crisis-zone {
+      background: rgba(201,160,48,0.07);
+      border: 1px solid rgba(201,160,48,0.14);
+      border-radius: 8px; padding: 1rem 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .crisis-zone:last-child { margin-bottom: 0; }
+    .cz-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+    .cz-name { font-size: 0.9rem; font-weight: 700; color: var(--cream); }
+    .cz-postcode { font-size: 0.72rem; color: rgba(248,244,232,0.35); }
+    .cz-count {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 1.5rem; font-weight: 900; color: var(--amber-l);
+    }
+    .cz-label { font-size: 0.72rem; color: rgba(248,244,232,0.35); }
+    .cz-tag {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--amber-l); text-transform: uppercase;
+    }
+
+    /* ── RECENT FEED ── */
+    .feed-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+    .feed-item {
+      display: flex; align-items: flex-start; gap: 0.85rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .feed-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .feed-type-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem;
+    }
+    .dot-share  { background: var(--sage); }
+    .dot-swap   { background: var(--amber-l); }
+    .dot-wanted { background: #7ab8e8; }
+    .feed-text { flex: 1; }
+    .feed-title { font-size: 0.88rem; font-weight: 600; color: var(--cream); margin-bottom: 0.15rem; }
+    .feed-meta  { font-size: 0.75rem; color: rgba(248,244,232,0.35); }
+    .feed-crisis-tag {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--amber-l); background: rgba(201,160,48,0.15);
+      padding: 0.1rem 0.4rem; border-radius: 3px; flex-shrink: 0; margin-top: 0.2rem;
+    }
+
+    /* ── GOVT CONTEXT ── */
+    .govt-row {
+      margin-top: 1rem;
+      background: var(--black);
+      border: 1px solid rgba(152,186,104,0.12);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;
+    }
+    .govt-block {}
+    .govt-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--sage); text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .govt-heading { font-size: 0.95rem; font-weight: 700; color: var(--cream); margin-bottom: 0.35rem; }
+    .govt-body { font-size: 0.82rem; color: rgba(248,244,232,0.45); line-height: 1.55; }
+
+    /* ── EMPTY / LOADING ── */
+    .loading-spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: var(--sage);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle; margin-right: 0.4rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state {
+      text-align: center; padding: 3rem 1rem;
+      color: rgba(248,244,232,0.3); font-size: 0.88rem;
+    }
+    .error-msg { color: #e87060; font-size: 0.82rem; }
+
+    @media (max-width: 1100px) {
+      .kpi-row { grid-template-columns: repeat(3, 1fr); }
+      .charts-row { grid-template-columns: 1fr 1fr; }
+      .bottom-row { grid-template-columns: 1fr; }
+      .govt-row { grid-template-columns: 1fr; gap: 1.25rem; }
+    }
+    @media (max-width: 700px) {
+      .topbar { padding: 0 1rem; }
+      .main { padding: 1rem; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .charts-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a href="https://famineandfeast.com.au" class="topbar-brand">Famine <em>&amp;</em> Feast AU</a>
+    <span class="topbar-pill">DATA DASHBOARD</span>
+  </div>
+  <div class="topbar-right">
+    <span class="last-updated" id="last-updated">Loading…</span>
+    <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+    <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar" id="status-bar">
+  <div class="status-dot" id="status-dot"></div>
+  <span id="status-text"><span class="loading-spinner"></span> Connecting to PantryShare AU API…</span>
+  <div class="status-crisis">
+    <div class="crisis-dot-sm"></div>
+    Cyclone Narelle zones active — Exmouth · Carnarvon · Shark Bay
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi" style="--kpi-color:var(--sage);">
+      <div class="kpi-label">Total Listings</div>
+      <div class="kpi-value" id="kpi-total">—</div>
+      <div class="kpi-sub">Active food listings nationally</div>
+      <div class="kpi-change up" id="kpi-total-tag">LIVE</div>
+    </div>
+    <div class="kpi" style="--kpi-color:#7ab8e8;">
+      <div class="kpi-label">Share Listings</div>
+      <div class="kpi-value" id="kpi-share">—</div>
+      <div class="kpi-sub">Food offered freely to community</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--amber-l);">
+      <div class="kpi-label">Swap Listings</div>
+      <div class="kpi-value" id="kpi-swap">—</div>
+      <div class="kpi-sub">Food offered in exchange</div>
+    </div>
+    <div class="kpi" style="--kpi-color:#e87060;">
+      <div class="kpi-label">Wanted Requests</div>
+      <div class="kpi-value" id="kpi-wanted">—</div>
+      <div class="kpi-sub">Community food needs posted</div>
+      <div class="kpi-change warn" id="kpi-wanted-pct">demand indicator</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--amber);">
+      <div class="kpi-label">Crisis Zone Listings</div>
+      <div class="kpi-value" id="kpi-crisis">—</div>
+      <div class="kpi-sub">Narelle priority postcodes</div>
+      <div class="kpi-change crisis">PRIORITY</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="charts-row">
+
+    <!-- Listing type doughnut -->
+    <div class="chart-card">
+      <div class="chart-title">Listing Type Breakdown</div>
+      <div class="chart-canvas-wrap" style="height:220px;">
+        <canvas id="chart-type"></canvas>
+      </div>
+      <div id="type-legend" style="margin-top:1rem;display:flex;flex-direction:column;gap:0.4rem;font-size:0.8rem;"></div>
+    </div>
+
+    <!-- Category bar chart -->
+    <div class="chart-card">
+      <div class="chart-title">Top Categories</div>
+      <div class="chart-canvas-wrap" style="height:260px;">
+        <canvas id="chart-category"></canvas>
+      </div>
+    </div>
+
+    <!-- State map — horizontal bar -->
+    <div class="chart-card">
+      <div class="chart-title">Listings by State / Territory</div>
+      <div class="chart-canvas-wrap" style="height:260px;">
+        <canvas id="chart-state"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+
+    <!-- Top postcodes table -->
+    <div class="table-card">
+      <div class="chart-title" style="margin-bottom:1rem;">Top Postcodes by Activity</div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Postcode / Suburb</th>
+            <th>Type</th>
+            <th>Listings</th>
+          </tr>
+        </thead>
+        <tbody id="postcode-table">
+          <tr><td colspan="4" class="empty-state"><span class="loading-spinner"></span> Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Crisis zone panel -->
+    <div class="crisis-panel">
+      <div class="crisis-panel-header">
+        <div class="crisis-dot-sm"></div>
+        <div class="crisis-panel-title">Cyclone Narelle — Priority Zones</div>
+      </div>
+
+      <div class="crisis-zone">
+        <div class="cz-top">
+          <div>
+            <div class="cz-name">Exmouth</div>
+            <div class="cz-postcode">Postcode 6707 · WA</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="cz-count" id="cz-6707">—</div>
+            <div class="cz-label">listings</div>
+          </div>
+        </div>
+        <div class="cz-tag"><div class="crisis-dot-sm"></div> First Priority — Cyclone Narelle</div>
+      </div>
+
+      <div class="crisis-zone">
+        <div class="cz-top">
+          <div>
+            <div class="cz-name">Carnarvon</div>
+            <div class="cz-postcode">Postcode 6701 · WA</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="cz-count" id="cz-6701">—</div>
+            <div class="cz-label">listings</div>
+          </div>
+        </div>
+        <div class="cz-tag"><div class="crisis-dot-sm"></div> Active Recovery Zone</div>
+      </div>
+
+      <div class="crisis-zone">
+        <div class="cz-top">
+          <div>
+            <div class="cz-name">Shark Bay / Denham</div>
+            <div class="cz-postcode">Postcode 6537 · WA</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="cz-count" id="cz-6537">—</div>
+            <div class="cz-label">listings</div>
+          </div>
+        </div>
+        <div class="cz-tag"><div class="crisis-dot-sm"></div> Active Recovery Zone</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RECENT ACTIVITY FEED -->
+  <div class="feed-card" style="margin-top:1rem;">
+    <div class="chart-title" style="margin-bottom:1rem;">Recent Listings — Live Feed</div>
+    <div id="feed-list">
+      <div class="empty-state"><span class="loading-spinner"></span> Loading listings…</div>
+    </div>
+  </div>
+
+  <!-- GOVT CONTEXT BLOCK -->
+  <div class="govt-row">
+    <div class="govt-block">
+      <div class="govt-label">For Government Partners</div>
+      <div class="govt-heading">Supply-side visibility</div>
+      <div class="govt-body">Live listing data reveals where community food surplus exists — enabling state and federal agencies to understand informal food distribution networks alongside formal food bank systems.</div>
+    </div>
+    <div class="govt-block">
+      <div class="govt-label">Demand-side signals</div>
+      <div class="govt-heading">Food insecurity proxy data</div>
+      <div class="govt-body">"Wanted" listings by postcode provide a real-time, granular proxy for food insecurity not captured in annual surveys — valuable for Social Services, Health, and Emergency Management departments.</div>
+    </div>
+    <div class="govt-block">
+      <div class="govt-label">Disaster readiness</div>
+      <div class="govt-heading">Crisis zone monitoring</div>
+      <div class="govt-body">Priority postcode tagging (Cyclone Narelle and future events) enables real-time monitoring of community food response in declared disaster zones — complementing SES and DFES relief operations.</div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ── STATE POSTCODE MAP ──
+const STATE_POSTCODES = {
+  WA:  { min: 6000, max: 6999 },
+  QLD: { min: 4000, max: 4999 },
+  NT:  { min: 800,  max: 899  },
+  SA:  { min: 5000, max: 5799 },
+  NSW: { min: 2000, max: 2999 },
+  VIC: { min: 3000, max: 3999 },
+  TAS: { min: 7000, max: 7999 },
+  ACT: { min: 2600, max: 2618 },
+};
+
+const NARELLE_POSTCODES = ['6707','6701','6537'];
+
+const CATEGORY_LABELS = {
+  produce:    'Fresh Produce',
+  pantry:     'Pantry Staples',
+  dairy:      'Dairy & Eggs',
+  bakery:     'Bread & Bakery',
+  protein:    'Meat & Protein',
+  meals:      'Prepared Meals',
+  baby:       'Baby & Kids',
+  other:      'Other',
+};
+
+function postcodeToState(pc) {
+  const n = parseInt(pc, 10);
+  if (isNaN(n)) return 'Unknown';
+  if (n >= 2600 && n <= 2618) return 'ACT';
+  if (n >= 2000 && n <= 2999) return 'NSW';
+  if (n >= 3000 && n <= 3999) return 'VIC';
+  if (n >= 4000 && n <= 4999) return 'QLD';
+  if (n >= 5000 && n <= 5799) return 'SA';
+  if (n >= 6000 && n <= 6999) return 'WA';
+  if (n >= 7000 && n <= 7999) return 'TAS';
+  if (n >= 800  && n <= 899 ) return 'NT';
+  return 'Unknown';
+}
+
+let allListings = [];
+let chartType, chartCat, chartState;
+
+// ── CHART SETUP ──
+const chartDefaults = {
+  color: 'rgba(248,244,232,0.5)',
+  font: { family: 'General Sans, system-ui, sans-serif', size: 11 },
+};
+Chart.defaults.color = chartDefaults.color;
+Chart.defaults.font  = chartDefaults.font;
+
+function initCharts() {
+  // Type doughnut
+  chartType = new Chart(document.getElementById('chart-type'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Share','Swap','Wanted'],
+      datasets: [{ data: [0,0,0], backgroundColor: ['#98ba68','#e0bc48','#7ab8e8'], borderWidth: 0 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '68%',
+      plugins: { legend: { display: false }, tooltip: { callbacks: {
+        label: ctx => ` ${ctx.label}: ${ctx.parsed} (${((ctx.parsed / ctx.dataset.data.reduce((a,b)=>a+b,0))*100).toFixed(0)}%)`
+      }}}
+    }
+  });
+
+  // Category bar
+  chartCat = new Chart(document.getElementById('chart-category'), {
+    type: 'bar',
+    data: {
+      labels: Object.values(CATEGORY_LABELS),
+      datasets: [{ data: new Array(Object.keys(CATEGORY_LABELS).length).fill(0),
+        backgroundColor: 'rgba(152,186,104,0.7)', borderRadius: 4, borderSkipped: false }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { stepSize: 1 } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+
+  // State bar
+  chartState = new Chart(document.getElementById('chart-state'), {
+    type: 'bar',
+    data: {
+      labels: ['WA','QLD','NT','SA','NSW','VIC','TAS','ACT'],
+      datasets: [{
+        data: [0,0,0,0,0,0,0,0],
+        backgroundColor: [
+          '#c97c2a','#2a7cc9','#b85c1a','#8040b8','#1a6b8a','#1a4a8a','#2a7a5a','#7a1a1a'
+        ],
+        borderRadius: 5, borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { grid: { display: false }, ticks: { stepSize: 1 } }
+      }
+    }
+  });
+}
+
+// ── DATA LOAD ──
+async function loadData() {
+  setStatus('loading', 'Fetching live data from PantryShare AU…');
+
+  try {
+    const res = await fetch('https://pantryshare.com.au/api/listings', { cache: 'no-cache' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    allListings = Array.isArray(data) ? data : (data.listings || []);
+    renderDashboard(allListings);
+    setStatus('ok', `Live — ${allListings.length} listing${allListings.length !== 1 ? 's' : ''} loaded from pantryshare.com.au`);
+    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-AU', {hour:'2-digit',minute:'2-digit'}) + ' AWST';
+  } catch (e) {
+    setStatus('error', `API unavailable — showing offline state. (${e.message})`);
+    document.getElementById('last-updated').textContent = 'Offline';
+    renderDashboard([]);
+  }
+}
+
+function setStatus(type, msg) {
+  const dot  = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+  dot.className = 'status-dot' + (type === 'error' ? ' error' : '');
+  text.innerHTML = type === 'loading' ? `<span class="loading-spinner"></span> ${msg}` : msg;
+  if (type === 'error') text.innerHTML = `<span class="error-msg">⚠ ${msg}</span>`;
+}
+
+function renderDashboard(listings) {
+  const total   = listings.length;
+  const share   = listings.filter(l => l.type === 'share').length;
+  const swap    = listings.filter(l => l.type === 'swap').length;
+  const wanted  = listings.filter(l => l.type === 'wanted').length;
+  const crisis  = listings.filter(l => NARELLE_POSTCODES.includes(String(l.postcode))).length;
+
+  // KPIs
+  animateCount('kpi-total',  total);
+  animateCount('kpi-share',  share);
+  animateCount('kpi-swap',   swap);
+  animateCount('kpi-wanted', wanted);
+  animateCount('kpi-crisis', crisis);
+
+  if (total > 0) {
+    const wantedPct = Math.round((wanted / total) * 100);
+    const el = document.getElementById('kpi-wanted-pct');
+    el.textContent = wantedPct + '% of total — demand signal';
+    el.className = 'kpi-change ' + (wantedPct > 40 ? 'crisis' : wantedPct > 25 ? 'warn' : 'up');
+  }
+
+  // Crisis zones
+  NARELLE_POSTCODES.forEach(pc => {
+    const count = listings.filter(l => String(l.postcode) === pc).length;
+    const el = document.getElementById(`cz-${pc}`);
+    if (el) el.textContent = count;
+  });
+
+  // Type chart
+  chartType.data.datasets[0].data = [share, swap, wanted];
+  chartType.update();
+
+  // Type legend
+  const legend = document.getElementById('type-legend');
+  [['Share', '#98ba68', share], ['Swap', '#e0bc48', swap], ['Wanted (need)', '#7ab8e8', wanted]].forEach(([label, color, val]) => {
+    const pct = total > 0 ? Math.round(val/total*100) : 0;
+    legend.innerHTML += `<div style="display:flex;align-items:center;gap:0.5rem;">
+      <div style="width:9px;height:9px;border-radius:50%;background:${color};flex-shrink:0;"></div>
+      <span style="color:rgba(248,244,232,0.6);">${label}</span>
+      <span style="margin-left:auto;font-weight:600;">${val} <span style="color:rgba(248,244,232,0.3);font-weight:400;">(${pct}%)</span></span>
+    </div>`;
+  });
+
+  // Category chart
+  const catKeys = Object.keys(CATEGORY_LABELS);
+  const catCounts = catKeys.map(k => listings.filter(l => l.category === k).length);
+  chartCat.data.datasets[0].data = catCounts;
+  chartCat.update();
+
+  // State chart
+  const stateCounts = ['WA','QLD','NT','SA','NSW','VIC','TAS','ACT'].map(s =>
+    listings.filter(l => postcodeToState(String(l.postcode)) === s).length
+  );
+  chartState.data.datasets[0].data = stateCounts;
+  chartState.update();
+
+  // Postcode table
+  const postcodeCounts = {};
+  listings.forEach(l => {
+    const pc = String(l.postcode || 'Unknown');
+    if (!postcodeCounts[pc]) postcodeCounts[pc] = { count: 0, suburb: l.suburb || '', state: postcodeToState(pc), crisis: NARELLE_POSTCODES.includes(pc) };
+    postcodeCounts[pc].count++;
+  });
+  const sortedPCs = Object.entries(postcodeCounts).sort((a,b) => b[1].count - a[1].count).slice(0, 12);
+  const maxCount = sortedPCs[0]?.[1].count || 1;
+  const tbody = document.getElementById('postcode-table');
+
+  if (sortedPCs.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="4" class="empty-state">No listings yet — be the first to post.</td></tr>`;
+  } else {
+    tbody.innerHTML = sortedPCs.map(([pc, d], i) => `
+      <tr>
+        <td class="postcode-rank">${i+1}</td>
+        <td>
+          <strong>${pc}</strong>
+          ${d.suburb ? `<span style="color:rgba(248,244,232,0.4);font-size:0.78rem;"> · ${d.suburb}</span>` : ''}
+          ${d.crisis ? `<br><span class="postcode-badge">⚠ NARELLE</span>` : ''}
+        </td>
+        <td style="color:rgba(248,244,232,0.45);font-size:0.8rem;">${d.state}</td>
+        <td>
+          <div class="bar-cell">
+            <div class="mini-bar-bg"><div class="mini-bar-fill ${d.crisis?'crisis':''}" style="width:${Math.round(d.count/maxCount*100)}%"></div></div>
+            <span class="mini-bar-val">${d.count}</span>
+          </div>
+        </td>
+      </tr>`).join('');
+  }
+
+  // Feed
+  const feedEl = document.getElementById('feed-list');
+  const recent = [...listings].reverse().slice(0, 10);
+  if (recent.length === 0) {
+    feedEl.innerHTML = `<div class="empty-state">No listings yet.</div>`;
+  } else {
+    feedEl.innerHTML = recent.map(l => {
+      const dotClass = l.type === 'share' ? 'dot-share' : l.type === 'swap' ? 'dot-swap' : 'dot-wanted';
+      const typeLabel = { share: 'Share', swap: 'Swap', wanted: 'Wanted' }[l.type] || l.type;
+      const isCrisis  = NARELLE_POSTCODES.includes(String(l.postcode));
+      const catLabel  = CATEGORY_LABELS[l.category] || l.category || 'Other';
+      const suburb    = l.suburb ? l.suburb : (l.postcode ? `Postcode ${l.postcode}` : 'Unknown location');
+      return `<div class="feed-item">
+        <div class="feed-type-dot ${dotClass}"></div>
+        <div class="feed-text">
+          <div class="feed-title">${l.title || 'Untitled listing'}</div>
+          <div class="feed-meta">${typeLabel} · ${catLabel} · ${suburb}${l.postcode ? ` ${l.postcode}` : ''} · ${postcodeToState(String(l.postcode||''))}</div>
+        </div>
+        ${isCrisis ? '<span class="feed-crisis-tag">⚠ NARELLE</span>' : ''}
+      </div>`;
+    }).join('');
+  }
+}
+
+function animateCount(id, target) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (target === 0) { el.textContent = '0'; return; }
+  let cur = 0;
+  const step = Math.max(1, Math.ceil(target / 24));
+  const timer = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur;
+    if (cur >= target) clearInterval(timer);
+  }, 45);
+}
+
+// ── CSV EXPORT ──
+function exportCSV() {
+  if (!allListings.length) { alert('No data loaded yet.'); return; }
+  const headers = ['ID','Title','Type','Category','Suburb','Postcode','State','Crisis Zone','Contact'];
+  const rows = allListings.map(l => [
+    l.id, `"${(l.title||'').replace(/"/g,'""')}"`, l.type, l.category,
+    `"${(l.suburb||'').replace(/"/g,'""')}"`, l.postcode,
+    postcodeToState(String(l.postcode||'')),
+    NARELLE_POSTCODES.includes(String(l.postcode)) ? 'YES' : 'NO',
+    `"${(l.contact||l.email||'').replace(/"/g,'""')}"`
+  ]);
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `pantryshare-au-listings-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+// ── INIT ──
+initCharts();
+loadData();
+// Auto-refresh every 5 minutes
+setInterval(loadData, 5 * 60 * 1000);
+</script>
+</body>
+</html>
