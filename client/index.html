@@ -1,34 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>PantryShare AU — Community Food Sharing by Suburb</title>
     <meta name="description" content="Share, swap, or request food with households in your suburb or postcode. Community food resilience for Australians." />
+
+    <!-- Open Graph -->
     <meta property="og:title" content="PantryShare AU" />
     <meta property="og:description" content="Share, swap or request food with your neighbours. Community resilience, suburb by suburb." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pantryshare.com.au" />
+    <meta property="og:image" content="https://pantryshare.com.au/icons/icon-512.png" />
+
     <!-- Fonts: Cabinet Grotesk (headings) + General Sans (body) from Fontshare -->
     <link
       href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=general-sans@400,500,600&display=swap"
       rel="stylesheet"
     />
-    <!-- PWA -->
+
+    <!-- PWA manifest -->
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#3d5c35" />
+
+    <!-- Theme colour — matches army green brand -->
+    <meta name="theme-color" content="#2e3822" />
+    <meta name="msapplication-TileColor" content="#2e3822" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144.png" />
+
+    <!-- iOS PWA — makes it feel like a native app -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="PantryShare" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- iOS touch icons (Apple ignores manifest icons) -->
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144.png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128.png" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96.png" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
+      // Register service worker for PWA offline support
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js');
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW registered:', reg.scope))
+            .catch(err => console.log('SW failed:', err));
         });
       }
     </script>
