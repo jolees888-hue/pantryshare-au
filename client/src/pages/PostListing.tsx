@@ -65,6 +65,10 @@ export default function PostListing() {
       apiRequest("POST", "/api/listings", data).then(r => r.json()),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/listings"] });
+      // Store delete token in localStorage so the poster can remove their own listing later
+      if (data.id && data.deleteToken) {
+        localStorage.setItem(`pantryshare-delete-${data.id}`, data.deleteToken);
+      }
       toast({ title: "Listing posted", description: "Your listing is now visible to your community." });
       navigate(`/listing/${data.id}`);
     },

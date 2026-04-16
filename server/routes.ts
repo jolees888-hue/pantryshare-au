@@ -6,6 +6,15 @@ import { z } from "zod";
 
 // ─── In-memory rate limiter (no npm package needed) ───────────────────────────
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+// Sweep expired entries every 5 minutes to prevent unbounded memory growth
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, record] of rateLimitMap.entries()) {
+    if (now > record.resetAt) rateLimitMap.delete(ip);
+  }
+}, 5 * 60 * 1000);
+
 function rateLimit(ip: string, maxRequests = 10, windowMs = 60000): boolean {
   const now = Date.now();
   const record = rateLimitMap.get(ip) || { count: 0, resetAt: now + windowMs };
@@ -18,35 +27,39 @@ function rateLimit(ip: string, maxRequests = 10, windowMs = 60000): boolean {
   return record.count > maxRequests;
 }
 
+function getIp(req: any): string {
+  return (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim()
+    || req.socket?.remoteAddress
+    || "unknown";
+}
+
 // ─── Query param validation schema ────────────────────────────────────────────
 const listingsQuerySchema = z.object({
   suburb: z.string().max(100).optional(),
   postcode: z.string().regex(/^\d{4}$/).optional(),
   type: z.enum(["share", "swap", "wanted"]).optional(),
-  category: z
-    .enum(["fresh_produce", "pantry", "bakery", "dairy", "other"])
-    .optional(),
+  category: z.enum(["fresh_produce", "pantry", "bakery", "dairy", "other"]).optional(),
 });
 
-// ─── Email masking helper ─────────────────────────────────────────────────────
+// ─── Route param validation ────────────────────────────────────────────────────
+const idParamSchema = z.coerce.number().int().positive();
+
+// ─── Email masking helper — strips email from public list responses ────────────
 function maskListing(listing: Record<string, unknown>) {
-  const { contactEmail, ...safe } = listing;
+  const { contactEmail, deleteToken, ...safe } = listing;
   return safe;
 }
 
 export function registerRoutes(httpServer: Server, app: Express) {
-  // Get all listings with optional filters
+  // Get all listings with optional filters — contact emails stripped
   app.get("/api/listings", (req, res) => {
     try {
       const parsed = listingsQuerySchema.safeParse(req.query);
       if (!parsed.success) {
-        return res
-          .status(400)
-          .json({ error: "Invalid query parameters", details: parsed.error.errors });
+        return res.status(400).json({ error: "Invalid query parameters", details: parsed.error.errors });
       }
       const { suburb, postcode, type, category } = parsed.data;
       const results = storage.getListings({ suburb, postcode, type, category });
-      // Strip contact emails from public response
       const safe = (results as Record<string, unknown>[]).map(maskListing);
       res.json(safe);
     } catch (err) {
@@ -54,24 +67,27 @@ export function registerRoutes(httpServer: Server, app: Express) {
     }
   });
 
-  // Get single listing — also mask email
+  // Get single listing — contact email included so detail page can render contact button
   app.get("/api/listings/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const listing = storage.getListing(id);
+    const parsed = idParamSchema.safeParse(req.params.id);
+    if (!parsed.success) return res.status(400).json({ error: "Invalid listing ID" });
+    const listing = storage.getListing(parsed.data);
     if (!listing) return res.status(404).json({ error: "Listing not found" });
-    res.json(maskListing(listing as Record<string, unknown>));
+    // Return email for contact but still strip the deleteToken
+    const { deleteToken, ...safe } = listing as Record<string, unknown>;
+    res.json(safe);
   });
 
-  // Create a listing — rate limited
+  // Create a listing — rate limited; returns deleteToken once so poster can delete later
   app.post("/api/listings", (req, res) => {
-    const ip = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
-    if (rateLimit(ip)) {
+    if (rateLimit(getIp(req))) {
       return res.status(429).json({ error: "Too many requests — please wait a minute and try again." });
     }
     try {
       const data = insertListingSchema.parse(req.body);
       const listing = storage.createListing(data);
-      res.status(201).json(listing);
+      // Return the deleteToken to the creator — this is the only time they'll see it
+      res.status(201).json({ id: listing.id, deleteToken: listing.deleteToken });
     } catch (err) {
       if (err instanceof z.ZodError) {
         return res.status(400).json({ error: "Validation failed", details: err.errors });
@@ -80,10 +96,19 @@ export function registerRoutes(httpServer: Server, app: Express) {
     }
   });
 
-  // Deactivate / remove a listing
+  // Delete a listing — requires deleteToken that was issued at creation time
   app.delete("/api/listings/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    storage.deactivateListing(id);
+    if (rateLimit(getIp(req), 20, 60000)) {
+      return res.status(429).json({ error: "Too many requests." });
+    }
+    const parsed = idParamSchema.safeParse(req.params.id);
+    if (!parsed.success) return res.status(400).json({ error: "Invalid listing ID" });
+
+    const token = req.query.token as string | undefined;
+    if (!token) return res.status(401).json({ error: "Delete token required" });
+
+    const ok = storage.deactivateListing(parsed.data, token);
+    if (!ok) return res.status(403).json({ error: "Invalid token or listing not found" });
     res.json({ ok: true });
   });
 

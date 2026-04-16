@@ -4,3 +4,4 @@ suburbshare.db
 *.db
 .env
 .DS_Store
+pantryshare-data.json

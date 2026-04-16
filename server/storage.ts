@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { type InsertListing, type Listing } from "@shared/schema";
+import crypto from "crypto";
 
 // Pure JSON file-based storage — no native modules, works on any host
 const DB_FILE = process.env.DB_PATH || path.join(process.cwd(), "pantryshare-data.json");
@@ -10,34 +11,46 @@ interface DB {
   nextId: number;
 }
 
-function loadDB(): DB {
-  try {
-    if (fs.existsSync(DB_FILE)) {
-      const raw = fs.readFileSync(DB_FILE, "utf-8");
-      return JSON.parse(raw);
-    }
-  } catch {}
-  return { listings: [], nextId: 1 };
+// ─── In-memory singleton — prevents race conditions on concurrent writes ──────
+let _db: DB | null = null;
+let _flushTimer: ReturnType<typeof setTimeout> | null = null;
+
+function getDB(): DB {
+  if (!_db) {
+    try {
+      if (fs.existsSync(DB_FILE)) {
+        const raw = fs.readFileSync(DB_FILE, "utf-8");
+        _db = JSON.parse(raw);
+      }
+    } catch {}
+    if (!_db) _db = { listings: [], nextId: 1 };
+  }
+  return _db;
 }
 
-function saveDB(db: DB) {
-  try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), "utf-8");
-  } catch (e) {
-    console.error("Failed to save DB:", e);
-  }
+function scheduleSave() {
+  if (_flushTimer) clearTimeout(_flushTimer);
+  _flushTimer = setTimeout(() => {
+    if (_db) {
+      try {
+        fs.writeFileSync(DB_FILE, JSON.stringify(_db, null, 2), "utf-8");
+      } catch (e) {
+        console.error("Failed to save DB:", e);
+      }
+    }
+  }, 200); // debounce — flush 200ms after last write
 }
 
 export interface IStorage {
   getListings(filters?: { suburb?: string; postcode?: string; type?: string; category?: string }): Listing[];
   getListing(id: number): Listing | undefined;
   createListing(data: InsertListing): Listing;
-  deactivateListing(id: number): void;
+  deactivateListing(id: number, deleteToken: string): boolean;
 }
 
 export const storage: IStorage = {
   getListings(filters = {}) {
-    const db = loadDB();
+    const db = getDB();
     return db.listings
       .filter((l) => {
         if (!l.isActive) return false;
@@ -51,12 +64,12 @@ export const storage: IStorage = {
   },
 
   getListing(id) {
-    const db = loadDB();
+    const db = getDB();
     return db.listings.find((l) => l.id === id && l.isActive === 1);
   },
 
   createListing(data) {
-    const db = loadDB();
+    const db = getDB();
     const listing: Listing = {
       id: db.nextId++,
       type: data.type,
@@ -70,18 +83,20 @@ export const storage: IStorage = {
       swapFor: data.swapFor ?? null,
       createdAt: Date.now(),
       isActive: 1,
+      deleteToken: crypto.randomUUID(),
     };
     db.listings.push(listing);
-    saveDB(db);
+    scheduleSave();
     return listing;
   },
 
-  deactivateListing(id) {
-    const db = loadDB();
+  deactivateListing(id, deleteToken) {
+    const db = getDB();
     const listing = db.listings.find((l) => l.id === id);
-    if (listing) {
-      listing.isActive = 0;
-      saveDB(db);
-    }
+    if (!listing) return false;
+    if (listing.deleteToken !== deleteToken) return false;
+    listing.isActive = 0;
+    scheduleSave();
+    return true;
   },
 };

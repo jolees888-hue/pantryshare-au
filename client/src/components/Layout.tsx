@@ -229,6 +229,14 @@ export default function Layout({ children }: LayoutProps) {
           <p className="text-sm text-muted-foreground text-center">
             Community food sharing, suburb by suburb. Built for Australians by Australians.
           </p>
+          <a
+            href="https://famineandfeast.com.au/privacy.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+          >
+            Privacy Policy
+          </a>
         </div>
       </footer>
     </div>

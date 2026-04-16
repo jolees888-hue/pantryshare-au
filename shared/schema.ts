@@ -6,8 +6,8 @@ export type ListingCategory = "fresh_produce" | "pantry" | "dairy" | "bakery" | 
 
 export interface Listing {
   id: number;
-  type: string;
-  category: string;
+  type: ListingType;
+  category: ListingCategory;
   title: string;
   description: string;
   suburb: string;
@@ -17,6 +17,7 @@ export interface Listing {
   swapFor: string | null;
   createdAt: number;
   isActive: number;
+  deleteToken?: string;
 }
 
 export const insertListingSchema = z.object({

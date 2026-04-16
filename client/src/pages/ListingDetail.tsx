@@ -63,12 +63,21 @@ export default function ListingDetail() {
     enabled: !!id,
   });
 
+  const deleteToken = id ? localStorage.getItem(`pantryshare-delete-${id}`) : null;
+
   const deleteMutation = useMutation({
-    mutationFn: () => apiRequest("DELETE", `/api/listings/${id}`).then(r => r.json()),
+    mutationFn: () => {
+      if (!deleteToken) throw new Error("No delete token — you can only remove your own listings.");
+      return apiRequest("DELETE", `/api/listings/${id}?token=${encodeURIComponent(deleteToken)}`).then(r => r.json());
+    },
     onSuccess: () => {
+      if (id) localStorage.removeItem(`pantryshare-delete-${id}`);
       queryClient.invalidateQueries({ queryKey: ["/api/listings"] });
       toast({ title: "Listing removed", description: "Your listing has been taken down." });
       navigate("/");
+    },
+    onError: (err: Error) => {
+      toast({ title: "Could not remove listing", description: err.message || "Please try again.", variant: "destructive" });
     },
   });
 
@@ -206,11 +215,15 @@ export default function ListingDetail() {
           size="sm"
           className="gap-2 text-destructive border-destructive/30 hover:bg-destructive/10"
           onClick={() => {
+            if (!deleteToken) {
+              toast({ title: "Not your listing", description: "You can only remove listings you posted.", variant: "destructive" });
+              return;
+            }
             if (confirm("Remove this listing? This cannot be undone.")) {
               deleteMutation.mutate();
             }
           }}
-          disabled={deleteMutation.isPending}
+          disabled={deleteMutation.isPending || !deleteToken}
           data-testid="button-remove"
         >
           <Trash2 className="w-3.5 h-3.5" />

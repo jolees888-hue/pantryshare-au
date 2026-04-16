@@ -287,9 +287,9 @@ export default function Home() {
       {/* ── STATS ── */}
       <div className="grid grid-cols-3 gap-3">
         {[
-          { icon: <Users className="w-4 h-4" />,    label: "Households sharing", value: listings ? listings.length + 12 : "—" },
+          { icon: <Users className="w-4 h-4" />,    label: "Households sharing", value: listings ? listings.length : "—" },
           { icon: <RefreshCw className="w-4 h-4" />, label: "Active listings",    value: listings ? listings.length : "—" },
-          { icon: <Heart className="w-4 h-4" />,     label: "Suburbs active",     value: listings ? new Set(listings.map(l => l.postcode)).size + 3 : "—" },
+          { icon: <Heart className="w-4 h-4" />,     label: "Suburbs active",     value: listings ? new Set(listings.map(l => l.postcode)).size : "—" },
         ].map((s, i) => (
           <div key={i} className="bg-card border border-border rounded-xl px-4 py-3 text-center">
             <div className="flex justify-center text-primary mb-1">{s.icon}</div>

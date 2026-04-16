@@ -45,8 +45,8 @@ export const queryClient = new QueryClient({
     queries: {
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      refetchOnWindowFocus: true,
+      staleTime: 90 * 1000, // 90 seconds — listings stay fresh, new posts appear
       retry: false,
     },
     mutations: {
